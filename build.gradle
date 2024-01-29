@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+	id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'com.mysite'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	/* MVC 로 웹사이트 개발 할수 있도록 하는 라이브러리   */ 
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	
+	// thymeleaf 라이브러리 
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	
+		// lombok  : java -jar lombok.jar
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	
+	// developmentOnly  : 개발시에만 적용 , 배포 할 때는 배포되지 않음. (*.jar ) 
+	// devtool
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	
+	// JPA 라이브러리 : H2 DB, Oracle, MySQL ... 
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	
+	// DB에 연결 하는 라이브러리 : H2(테스트,개발) , Oracle,MySQL 
+	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.oracle.database.jdbc:ojdbc11'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	
+	//JUnit Test 라이브러리
+	testImplementation 'org.junit.jupiter:junit-jupiter' 
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    
+    //유효성 체크 라이브러리 : 폼에서 넣는 값을 체크해서 넘김. 
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+	
+	// Spring Security 라이브러리 설치 
+
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+ 
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
