@@ -63,7 +63,21 @@ public class QuestionService {
 		return questionRepository.findAll(pageable); 
 	}
 	
-
+    // 수정하는 메소드 생성 :
+	public void modify (Question question, String subject, String content) {
+		// controller 에서 기존의 값을 끄집어낸 question 
+		question.setSubject(subject);
+		question.setContent(content);
+		question.setModifyDate(LocalDateTime.now());
+		
+		// 수정 : update
+		questionRepository.save(question);
+	}
 	
+	// 삭제 메소드
+	public void questionDelete(Question question) {
+		
+		questionRepository.delete(question);
+	}
 
 }

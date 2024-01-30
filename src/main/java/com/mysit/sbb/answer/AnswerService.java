@@ -44,6 +44,14 @@ public class AnswerService {
 	
 	}
 
+	// 답변을 수정 메소드 : Answer <== 수정할 Answer 객체가 주입되어야함. <== Controller
+	public void modify(Answer answer, String content) {
+		answer.setContent(content);
+		answer.setModifyDate(LocalDateTime.now());
+		
+		// update
+		answerRepository.save(answer);
+	}
 
 	
 }

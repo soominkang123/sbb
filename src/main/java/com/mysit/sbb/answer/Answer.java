@@ -29,6 +29,7 @@ public class Answer {
 	private String content; 
 	
 	private LocalDateTime createDate; 	// 컬럼이름 : create_date
+	private LocalDateTime modifyDate;   // 수정한 날짜
 	
 	//Foreign Key : Answer 테이블은 Question 테이블을 참조함. 
 	// @MayToOne : JPA에서 테이블 간의 관계 설정 , 자식 테이블(Answer)에서 부모 테이블(Question)을 참조 

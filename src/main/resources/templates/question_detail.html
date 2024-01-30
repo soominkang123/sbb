@@ -14,6 +14,31 @@
                     <div th:text="${#temporals.format(question.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
+            <!-- 수정/삭제 버튼 추가(본인 계정으로 로그인한 계정에만 수정버튼생김) -->
+            <div class = "my-3">
+               <a th:href="@{|/question/modify/${question.id}|}" 
+                  sec:authorize = "isAuthenticated"
+                  th:if = "${question.author != null and 
+                  #authentication.getPrincipal().getUsername() == question.author.username}"
+                              
+                   th:text="수정"
+                   class="btn btn-sm btn-outline-secondary"
+               >
+                   
+               </a>
+               <a 
+                  href="javascript:void(0)"
+                  th:data-uri="@{|/question/delete/${question.id}|}"
+                  sec:authorize = "isAuthenticated"
+                  th:if = "${question.author != null and 
+                  #authentication.getPrincipal().getUsername() == question.author.username}"
+                  th:text="삭제"
+                  class="delete btn btn-sm btn-outline-secondary"
+               >
+               </a>
+             </div>
+                        
+            
         </div>
     </div>
     <!-- 답변의 갯수 표시 -->
@@ -32,6 +57,30 @@
                     <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
+            <!-- 수정 / 삭제 버튼 추가 -->
+            <div class="my-3">
+            
+                <a 
+                th:href = "@{|/answer/modify/${answer.id}|}"
+                th:text="수정"
+                class="btn btn-sm btn-outline-secondary"
+                sec:authorize = "isAuthenticated"
+                th:if = "${answer.author != null and 
+                #authentication.getPrincipal().getUsername() == answer.author.username}"
+                ></a>
+                
+                
+                
+                <a th:text="삭제"
+                    class="btn btn-sm btn-outline-secondary"
+                    
+                  sec:authorize = "isAuthenticated"
+                  th:if = "${answer.author != null and 
+                  #authentication.getPrincipal().getUsername() == answer.author.username}"
+                ></a>
+                
+            </div>
+            
         </div>
     </div>
     <!-- 답변 반복 끝  -->
@@ -50,4 +99,15 @@
     </form>
 </div>
 
+<script layout:fragment="javascript" type = "text/javascript">
+ 
+const delete_elements = document.getElementsByClassName("delete");
+Array.from(delete_elements).forEach(function(element) {
+     element.addEventListener('click', function() {
+        if (confirm('정말로 삭제 하시겠습니까?')) {
+            location.href = this.dataset.uri;
+        }
+    });
+});
+</script>
 </html>

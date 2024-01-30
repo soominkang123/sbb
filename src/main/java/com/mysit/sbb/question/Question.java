@@ -40,7 +40,8 @@ public class Question {
 	
 	@Column(length=20000)
 	private String content; 
-	private LocalDateTime createDate; 
+	private LocalDateTime createDate;    // 질문 생성 날짜 
+	private LocalDateTime modifyDate;    // 질문을 수정한 날짜
 	
 	//질문(Question) : 1 , 답변(Answer) : 다 
 	//하나의 질문에 대해서 모든 답변을 가져 올 수 있다. 
