@@ -2,6 +2,7 @@ package com.mysit.sbb.question;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.mysit.sbb.answer.Answer;
 import com.mysit.sbb.user.SiteUser;
@@ -12,6 +13,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
@@ -55,4 +57,17 @@ public class Question {
 	// SiteUser : 부모 , Question : 자식 
 	@ManyToOne
 	private SiteUser author; 
+	
+	// 글 추천 컬럼 추가 : @ManyToMany <== 새로운 테이블이 생성됨.
+	// question : 질문 , SiteUser : 추천 
+	// 하나의 질문에 많은 사용자가 추천 , 한 사용자는 많은 질문에 추천
+    // Question 과 SiteUser 와의 관계는 다:다 관계
+	   // Set 에는 동일한 값을 중복해서 넣을 수 없다.
+	      // 한 번 투표한 사용자는 중복투표 하지 못한다.
+	// Question_Voter 라는 별도의 테이블이 생성됨.
+	@ManyToMany
+	private Set<SiteUser> voter;
+	
+	
+	
 }

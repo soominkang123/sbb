@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.mysit.sbb.DataNotFoundException;
 import com.mysit.sbb.question.Question;
 import com.mysit.sbb.question.QuestionRepository;
 import com.mysit.sbb.user.SiteUser;
@@ -53,5 +54,25 @@ public class AnswerService {
 		answerRepository.save(answer);
 	}
 
+	// answer 의 ID를 input 받아서 answer 객체를 리턴
+	public Answer getAnswer(Integer id) {
+		Optional<Answer> op =
+		   answerRepository.findById(id);
+		
+		// op 가 null이 아닐때 끄집어 낸다.
+		if (op.isPresent()) {  // null 아닐때
+			return op.get();
+		} else {              // null 일때
+			// 예외를 강제로 발생시킴
+			throw new DataNotFoundException("해당 내용은 Answer에 존재하지 않습니다.");
+		}
+				
+	}
+	// 삭제 
+	public void delete(Answer answer) {
+		// 삭제 
+		answerRepository.delete(answer);
+	}
+	
 	
 }
