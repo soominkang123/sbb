@@ -146,7 +146,15 @@ Using generated security password: a4d08a92-ad03-4278-b8ba-0a006aa5e75d
 
 Spring Security 설정 파일에서 모들 설정 
 
+MVC(Model, view, Controller) Model
+   - 협업시 다른 개발자의 코드 쉽게 이해가능
+   - 유지 보수를 쉽게 할 수 있다.
+   - Model : 비즈니스 로직을 처리(메소드), Service Layer 
+   - View  : 화면에 출력 : Thymeleaf , JSP, React , ...
+   - Controller : 1. client 요청 , 2. Service에 메소드 호출 , 결과값을 리턴 <-- 비즈니스 로직 처리
+    3. View 페이지를 전송
 
+client ==> questionForm(DTO) ==> Controller ==> Service ==> Repository ==> Entity
 
 
 

@@ -1,6 +1,7 @@
 package com.mysit.sbb.answer;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.mysit.sbb.question.Question;
 import com.mysit.sbb.user.SiteUser;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -44,5 +46,11 @@ public class Answer {
 	// SiteUser : 부모 , Question : 자식 
 	@ManyToOne
 	private SiteUser author;
+	
+	// 별도의 테이블이 생성됨 : answer_voter 테이블이 생성됨
+	// answer_id : answer 테이블의 id를 참조 
+	// voter_id  : site_user 테이블의 id를 참조함.
+	@ManyToMany
+	private Set<SiteUser> voter;
 
 }

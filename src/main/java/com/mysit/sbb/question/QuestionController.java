@@ -209,5 +209,32 @@ public class QuestionController {
 				
 		return "redirect:/";
 	}
+	
+	// 추천 기능 추가
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/vote/{id}")
+	public String questionVoter(
+			// client 에서 넘어오는 값을 처리 
+			@PathVariable("id") Integer id,
+			Principal principal
+			) {
+		
+		// 서비스의 로직을 처리
+		// id 는 question 테이블의 id 컬럼의 값 으로 question 객체를 끄집어 냄.
+		Question question = questionService.getQuestion(id);
+		// question voter 필드에 값을 주입 : Set<SiteUser>
+		// principal.getName() 으로 SiteUser 객체를 가지고 와야 한다.
+		SiteUser siteUser = userService.getUser(principal.getName());
+		
+		// 투표 완료됨
+		questionService.vote(question, siteUser);
+		
+		
+		// 뷰페이지로 전송
+		
+		return String.format("redirect:/question/detail/%s", id);
+		
+		
+	}
 
 }

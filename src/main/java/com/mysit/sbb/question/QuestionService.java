@@ -80,4 +80,18 @@ public class QuestionService {
 		questionRepository.delete(question);
 	}
 
+	// 추천한 내용을 DB에 저장하는 메소드 
+	// question : 추천할 질문 , siteUser : 추천할 사용자 
+	public void vote(Question question, SiteUser siteUser) {
+		
+		//set<SiteUser>
+		question.getVoter().add(siteUser);
+		
+		// 투표내용이 저장됨
+		questionRepository.save(question);
+		
+		
+	}
+	
+	
 }

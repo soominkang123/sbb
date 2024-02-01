@@ -12,4 +12,13 @@ public class MainController {
 		
 		return "redirect:/question/list"; 
 	}
+	
+	//http://localhost:8585/anchor 
+	@GetMapping("/anchor")
+	public String anchor() {
+		
+		return "test_anchor";
+	}
+	
+	
 }

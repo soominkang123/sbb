@@ -31,6 +31,7 @@ public class AnswerController {
 	
 	
 	// 답변 등록 처리 
+	// 앵커 태그를 사용해서 수정해서 등록 이후 그 위치로 이동<== 수정됨 - 2월 1일
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping ("/answer/create/{id}")
 	public String createAnswer(
@@ -65,9 +66,11 @@ public class AnswerController {
 		SiteUser siteUser = userService.getUser(principal.getName());
 		
 		// 수정됨
+		Answer answer =
 		answerService.creatAnswer(id, answerForm.getContent(), siteUser); 
 		
-		return String.format("redirect:/question/detail/%s", id) ; 
+		return String.format("redirect:/question/detail/%s#answer_%s", 
+				answer.getQuestion().getId(), answer.getId()) ; 
 	}
     
 	// 답변을 수정 할 수 있는 뷰 페이지 전송
@@ -95,6 +98,7 @@ public class AnswerController {
 	}
 	
 	// 수정 폼에서 넘어오는 값을 받아서 저장
+	// 앵커를 이용해서 수정이후 해당 위치로 이동
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/answer/modify/{id}")
 	public String answerModify(
@@ -110,7 +114,8 @@ public class AnswerController {
 	answerService.modify(answer, answerForm.getContent());
 	
 	// 수정 완료후 이동 페이지
-	return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+	return String.format("redirect:/question/detail/%s#answer_%s", 
+			answer.getQuestion().getId(), answer.getId()) ; 
 	}
 	
 	// answer 삭제
@@ -135,5 +140,27 @@ public class AnswerController {
 		
 		return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
 	}
+	
+	// 답변 추천 기능 처리 
+	@PreAuthorize("isAuthenticated()")   // 로그인 되었을때 접근 가능 , 인증안된경우 인증 페이지로 던짐.
+	@GetMapping("/answer/vote/{id}")
+	public String answerVote(
+			@PathVariable("id") Integer id,
+			Principal principal
+			
+			) {
+		// id 를 가지고 answer 객체를 끄집어 내어와야함.
+		Answer answer = answerService.getAnswer(id);
+		// principal 를 가지고 SiteUser 객체를 끄집어 내야 한다.
+		SiteUser siteUser = userService.getUser(principal.getName());
+		
+		// DB에 저장
+		answerService.vote(answer, siteUser);
+		
+		// 투표후 : 질문 상세 페이지로 이동됨
+		return String.format("redirect:/question/detail/%s#answer_%s", 
+				answer.getQuestion().getId(), answer.getId()) ; 
+	}
+	
 	
 }
