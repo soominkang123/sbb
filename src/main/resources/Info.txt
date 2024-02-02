@@ -194,18 +194,64 @@ where
    or a.content like  '%스프링%'
    or u2.username like  '%스프링%'
      
+============================================
 
-
+배포 :
+      - war : JSP , 외장 톰켓                 <== 서버 : JDK 17 , 톰켓 : 10.1
+      - jar : Spring Boot , 톰켓을 내장 배포   <== 서버 : JDK 17 
+      
+      - 도커 환경에 배포 :                      <-- 서버 : 도커만 설치
+          - 도커 이미지 : JDK17 + 톰켓:10.1 + 개발소스
+Jar 배포 파일 만들기  
+     run => run config
+     
+     배포 파일 위치 : WorkSpace\sbb\build\libs\0.0.1-SNAPSHOT   
+     배포 파일 이름 : sbb-0.0.1-SNAPSHOT
  
- 
- 
- 	 
+     서버 : jdk17 설치 후
+         java -jar sbb-0.0.1-SNAPSHOT.jar  <== TCP 8686    // ctrl c 눌러서 나오면 안됨
+         방화벽 : AWS 방화벽 , Windows 방화벽 (wf.msc)
+         
+     == 관리자 권한으로 명령프롬프트가 실행되어야함. ========
+     - Forground Mode 실행 
+ 	 java -jar -Dserver.port=80 sbb-0.0.1-SNAPSHOT.jar
    
- 
- 
+     - Background Mode 실행 
+     java -jar -Dserver.port=80 sbb-0.0.1-SNAPSHOT.jar &
   
+ AWS Linux VM에 Spring Boot 배포 
+   - 컴퓨터 이름 바꾸기 : hostname     <== 리부팅 필요 
+      sudo hostnamectl set-hostname Ubuntu-vm
+      sudo reboot
+   - 날짜/타임존 변경 : UTC 시간대로 로그가 남음.
+       date    : 현재 시스템에 셋팅된 날짜 / 시간 / 시간대 UTC 
+       // 시스템의 시간대를 서울 시간대로 설정
+       sudo ln -sf /usr/share/zoneinfo/Asia/Seoul /etc/localtime
   
-  
-  
+   - JDK 17 설치
+      java -version
+      sudo apt update
+      sudo apt install openjdk-17-jre-headless 
+      java -version
+    - 프로잭트 실행 : localhost:8686
+      java -jar sbb-0.0.1-SNAPSHOT.jar
+      
+      
+      AWS의 Ubuntu VM은 기본적으로 방화벽이 비활성화되어 있음.
+       - AWS의 방화벽만 열어주면 됨.
+       - TCP 8686 포트 오픈
+     
+     - Ubuntu-VM의 공인 IP로 접속
+        http://공인IP:8686
+
+80번 포트에서 서비스 작동 시키기 [백그라운드 모드로 실행]
+   sudo java -Dserver.port=80 -jar sbb-0.0.1-SNAPSHOT.jar &             
+   
+// h2 DB 의 DataBase 파일의 위치 : ubuntu
+   자신의 계정의 홈 폴더에 DB파일이 위치
+   /home/ubuntu  
+       local2.mv.db
+       
+       
   
   	 		
